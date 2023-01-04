@@ -26,7 +26,7 @@ func newBookFromEvent(events []event) (*book, error) {
 	return &book{events: events, index: index}, nil
 }
 
-func (b *book) updateData() ([]event, error) {
+func (b *book) updateEvent() ([]event, error) {
 	// TODO: 实现12月28号更新一次数据，当天便不再更新
 	currentTime := time.Now()
 	if currentTime.Month() == 12 && currentTime.Day() == 29 {
@@ -70,6 +70,10 @@ func (b *book) findEvent(date time.Time) *event {
 func (b *book) isWeekend(date time.Time) bool {
 	day := date.Weekday()
 	return day == time.Sunday || day == time.Saturday
+}
+
+func (b *book) getEvent() []event {
+	return b.events
 }
 
 func _key(date time.Time) string {

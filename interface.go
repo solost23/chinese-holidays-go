@@ -9,5 +9,6 @@ type Inquirer interface {
 	IsHoliday(date time.Time) bool
 	IsWorkingDay(date time.Time) bool
 	// not use
-	updateData() ([]event, error)
+	updateEvent() ([]event, error)
+	getEvent() []event
 }
