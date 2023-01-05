@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"golang.org/x/sync/errgroup"
 	"io"
 	"net/http"
+	"sync"
 )
 
 const (
@@ -51,19 +53,34 @@ func newEvents(urlPrefix string, data []byte) ([]event, error) {
 	}
 
 	events := make([]event, 0)
+
+	errGroup := new(errgroup.Group)
+	syncMap := new(sync.Map)
+
 	for _, entry := range entries {
 		url := fmt.Sprintf("%s/%d.json", urlPrefix, entry.Year)
-		bytes, err := downloadData(url)
+		// 改造成并发获取数据
+		errGroup.Go(func() error {
+			bytes, err := downloadData(url)
+			if err != nil {
+				return err
+			}
+			syncMap.Store(url, bytes)
+			return nil
+		})
+	}
+	if err = errGroup.Wait(); err != nil {
+		return nil, err
+	}
+	// 解析数据，返回
+	syncMap.Range(func(key, value any) bool {
+		e, err := parseEvents(value.([]byte))
 		if err != nil {
-			return nil, err
-		}
-
-		e, err := parseEvents(bytes)
-		if err != nil {
-			return nil, err
+			return false
 		}
 		events = append(events, e...)
-	}
+		return true
+	})
 	return events, nil
 }
 
