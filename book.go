@@ -29,13 +29,13 @@ func newBookFromEvent(events []event) (*book, error) {
 func (b *book) updateEvent() ([]event, error) {
 	// TODO: 实现12月28号更新一次数据，当天便不再更新
 	currentTime := time.Now()
-	if currentTime.Month() == 12 && currentTime.Day() == 29 {
+	if currentTime.Month() == time.December && currentTime.Day() == 29 {
 		b.flag = false
 	}
 	if b.flag == true {
 		return b.events, nil
 	}
-	if !(len(b.events) <= 0 || (currentTime.Month() == 12 && currentTime.Day() == 28)) {
+	if !(len(b.events) <= 0 || (currentTime.Month() == time.December && currentTime.Day() == 28)) {
 		return b.events, nil
 	}
 	b.flag = true
