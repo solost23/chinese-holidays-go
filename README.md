@@ -12,9 +12,8 @@ import (
 )
 
 func main() {
-	inquirer := NewInquirer() // inquirer应设置成全局变量，避免每次初始化从互联网获取数据初始化
 	date := time.Date(2023, 1, 2, 0, 0, 0, 0, china)
-	inquirer.IsHoliday(date) // true
-	inquirer.IsWorkingDay(date) // false
+	Inqr.IsHoliday(date) // true
+	Inqr.IsWorkingDay(date) // false
 }
 ```

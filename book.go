@@ -43,20 +43,20 @@ func (b *book) updateEvent() ([]event, error) {
 	return loadData(UrlPrefix)
 }
 
-func (b *book) IsHoliday(date time.Time) bool {
+func (b *book) Holiday(date time.Time) bool {
 	event := b.findEvent(date)
 	if event == nil {
-		return b.isWeekend(date)
+		return b.Weekend(date)
 	}
-	return event.isHoliday()
+	return event.Holiday()
 }
 
-func (b *book) IsWorkingDay(date time.Time) bool {
+func (b *book) WorkingDay(date time.Time) bool {
 	event := b.findEvent(date)
 	if event == nil {
-		return !b.isWeekend(date)
+		return !b.Weekend(date)
 	}
-	return event.isWorkingDay()
+	return event.WorkingDay()
 }
 
 func (b *book) findEvent(date time.Time) *event {
@@ -67,7 +67,7 @@ func (b *book) findEvent(date time.Time) *event {
 	return &event
 }
 
-func (b *book) isWeekend(date time.Time) bool {
+func (b *book) Weekend(date time.Time) bool {
 	day := date.Weekday()
 	return day == time.Sunday || day == time.Saturday
 }

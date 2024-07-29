@@ -17,11 +17,11 @@ type event struct {
 	Range []string
 }
 
-func (e *event) isHoliday() bool {
+func (e *event) Holiday() bool {
 	return e.Type == TypeHoliday
 }
 
-func (e *event) isWorkingDay() bool {
+func (e *event) WorkingDay() bool {
 	return e.Type == TypeWorkingDay
 }
 

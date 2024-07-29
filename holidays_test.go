@@ -46,9 +46,8 @@ func TestIsHolidayCnt5(t *testing.T) {
 			},
 		},
 	}
-	inquirer := NewInquirer()
 	for _, test := range tests {
-		if test.want.result != inquirer.IsHoliday(test.arg.date) {
+		if test.want.result != Inqr.MustHoliday(test.arg.date) {
 			t.Errorf("err: %v", errors.New("发生错误"))
 		}
 	}
